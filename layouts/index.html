@@ -1,0 +1,56 @@
+<html ng-app="miApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/custom.css" />
+  <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js'></script>
+  <script src="/js/angular-leaflet-directive.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="/app.js"></script>
+</head>
+<body ng-controller="ctrl">
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-8" >
+    <leaflet id="mapid"
+      lf-center="center"
+      tiles="tiles"
+      markers="markers"
+      event-broadcast="events"
+      width="100%"
+      height="100%">
+    </leaflet>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <button ng-click="loadPlaces()" type="button" class="btn btn-default">Load Places</button>
+        <button ng-click="addRandomPlace()" type="button" class="btn btn-default">Add Random Place</button>
+      </div>
+    </div>
+
+    <form class="form-horizontal col-md-12">
+      <div class="form-group">
+        <label class="col-sm-4" for="placeName">Nombre del lugar</label>
+        <input ng-model="cursor.text" type="text" class="col-sm-8 form-control" id="placeName" placeholder="...">
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2" for="latInput">Latitud</label>
+        <input ng-model="cursor.lat" type="text" class="col-sm-9 form-control" id="latInput" placeholder="0.0" readonly>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2" for="lngInput">Longitud</label>
+        <input ng-model="cursor.lng" type="text" class="col-sm-9 form-control" id="lngInput" placeholder="0.0" readonly>
+      </div>
+
+      <button ng-click="addPlace()" type="button" class="btn btn-default">Añadir ubicación</button>
+    </form>
+  </div>
+</div>
+</div>
+<div ng-init="loadPlaces()"></div>
+</body>
+</html>

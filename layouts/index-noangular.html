@@ -1,0 +1,61 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/custom.css" />
+  <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+</head>
+<body>
+  <div id="mapid"></div>
+  <script>
+    var lat = -35.429513;
+    var long = -71.660040;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(positionCallback);
+    } else{
+      console.log("Información de posición no disponible.")
+    }
+    var mymap = L.map('mapid').setView([lat, long], 13);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'codesxt.cig8eowrz09fwt6lyhcmpfzst',
+    accessToken: 'pk.eyJ1IjoiY29kZXN4dCIsImEiOiJjaWc4ZW95Z2YwOTRndnhrdjBvZHBxbW95In0.thmYteAR25Fu-fJH2I3ZTA'
+}).addTo(mymap);
+
+function positionCallback(position){
+  console.log("Latitud:" + position.coords.latitude);
+  console.log("Longitud:" + position.coords.longitude);
+  lat = position.coords.latitude;
+  long = position.coords.longitude;
+  mymap = mymap.setView([lat, long], 13);
+  var marker = L.marker([lat, long]).addTo(mymap);
+  marker.bindPopup("<b>¡Aquí estás!</b><br>(" + lat + "," + long + ")").openPopup();
+}
+
+var popup = L.popup();
+
+function onMapClick(e) {
+  var text = `
+<pre>
+{
+  name: 'Posición',
+  loc: {
+    type: 'Point',
+    coordinates: [`+e.latlng.lat.toString()+`,
+      `+e.latlng.lng.toString()+`]
+  }
+}
+</pre>
+`;
+    popup
+        .setLatLng(e.latlng)
+        .setContent(text)
+        .openOn(mymap);
+}
+
+mymap.on('click', onMapClick);
+  </script>
+</body>
+</html>
